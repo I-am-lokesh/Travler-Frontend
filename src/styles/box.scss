@@ -1,0 +1,66 @@
+.box {
+  background-color: white;
+
+  height: fit-content;
+  width:  90vw;
+  margin: auto ;
+  border-radius: 10px;
+  display: flex;
+
+}
+
+.mid-first {
+     display: flex ;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+
+}
+.mid-first h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a202c;
+    font-family: 'Merriweather', serif;
+    height: 30%;
+}
+
+.mid-first p {
+    font-size: .9rem;
+    font-weight: 400;
+    color: #1a202c;
+    font-family: 'Merriweather', serif;
+}
+
+.start-div {
+    width: 20%;
+}
+
+.end-div {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    font-weight: bolder;
+    justify-content: space-around;
+}
+.mid-div{ 
+    width: 60%;
+    display: flex;
+    
+    justify-content: space-around;
+    align-items: center;
+}
+.btn {
+    background-color: #FF7324;
+    width: 50%;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: .8rem;
+    font-weight: 600;
+    font-family: 'Merriweather', serif;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    box-shadow: 2px 2px 2px #1a202c;
+}

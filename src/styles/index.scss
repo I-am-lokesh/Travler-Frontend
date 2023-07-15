@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&family=Poppins&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    background-color: #ede6d6  ;
+ }
+ 
+.TRAVLER { 
+  font-family: 'Orbitron', sans-serif;
+ 
+}
+  
+.POPPINS {
+    font-family: 'Poppins', sans-serif;
+}
+  
+.MERRI {
+    font-family: 'Merriweather', serif;
+  }
