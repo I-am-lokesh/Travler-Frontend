@@ -11,7 +11,7 @@ const NavBar = () => {
 
   return (
       <>
-    <div className=" flex justify-between h-10 w-[100vw] mx-auto  bg-transparent fixed" >
+    <div className=" flex justify-between h-30 w-[100vw] mx-auto  bg-transparent fixed" >
         <div className='flex justify-start'>
            <AiOutlineMenu size={25} className="self-center cursor-pointer" onClick ={()=> setmenuIsOpen(!menuIsOpen) }/>
 
@@ -19,7 +19,7 @@ const NavBar = () => {
          
          <h1 className='hidden sm:flex md:visible text-[black] font-extrabold text-lg sm:tracking-[2px] lg:tracking-[10px]  TRAVLER'>TRAVLER </h1> 
          </div>
-             <div className=' bg-white bg-opacity-100 rounded-b-2xl w-[120px] sm:w-[60vw]'>
+             <div className=' bg-white bg-opacity-100 rounded-b-2xl w-[120px] sm:w-[60vw] shadow-lg'>
 
             <ul className='flex flex-row text-[15px] justify-around items-end h-full font-bold'>
 

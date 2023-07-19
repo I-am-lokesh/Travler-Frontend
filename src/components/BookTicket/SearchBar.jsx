@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { server } from "../../main.jsx";
 import Box from "./Box.jsx";
+
+
 const SearchBar = () => {
   const [city, setCity] = useState("");
   const [date, setDate] = useState(new Date(Date.now()));
   const [dest, setDest] = useState([]);
-     
   
   useEffect(() => {
 
@@ -24,20 +25,13 @@ const SearchBar = () => {
       });
    }, [city]);
 
+   
+
+  
+
   const submitHandler = (e) => {
     e.preventDefault();
-    // console.log(city, date);
-    // const { data } = axios
-    //   .get(`${server}/api/v1/destination/get/${city}`, {
-    //     withCredentials: true,
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data.destinations);
-    //     setData(res.data.destinations);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+   
   };
 
   return (
@@ -78,15 +72,20 @@ const SearchBar = () => {
             />
           </div>
 
-          <div className=" flex flex-row-reverse bg-[#289CAC] items-center w-[4em] lg:w-[8em] rounded-2xl   POPPINS align-middle ">
+          <div className=" flex flex-row-reverse bg-[#289CAC] items-center w-[4em] lg:w-[8em] rounded-2xl   POPPINS align-middle "
+           onClick={(e)=> submitHandler(e)}>
             <AiOutlineSearch size={45} color={"#144E56"} />
           </div>
         </form>
       </div>
+      {
+         !city && <div className="ml-[10vw] text-[1vw] font-bold text-red-500">Please enter a city name above. 
+            Example- Delhi, Kolkata, Jaipur etc</div>
+      }
 
       {dest &&
         dest.map((item) => {
-                  console.log(item)
+                
           return ( <Box key={item._id} props={item} /> ) 
         })}
     </>

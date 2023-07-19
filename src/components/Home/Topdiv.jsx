@@ -11,7 +11,7 @@ const Topdiv = () => {
               </div>
               <div className=" h-fit text-[11vw] sm:text-[8vw] xl:text-[6vw]  ">
                  <p className=" MERRI text-[#084A5F] font-extrabold ml-[10vw]" > Travel to any part of 
-                 <p className="text-[#FF7324] inline"> India</p>. </p>
+                 <p className="text-[#FF7324] inline "> India</p>. </p>
               </div>
               <div className=" h-1/4">
                 <p className="POPPINS ml-[10vw] font-bold text-[3vw] sm:text-[2.5vw] xl:text-[1.5vw]">Skip the Wait, Secure Instant Bookings!</p>

@@ -1,6 +1,73 @@
-import React from 'react'
+import  { useEffect } from 'react'
+import { useState } from 'react'
+import axios from 'axios';
+import {server} from '../../main.jsx'
+import logo from '../../assets/travler-logo.svg'
 
-const Description = () => {
+const Description = ({ destination_prop }) => {
+
+       const [destination, setDestination] = useState(destination_prop) ;
+       const [amount , setAmount] = useState( destination && destination.entryPrice) ;
+       
+       useEffect(() => {
+           setDestination(destination_prop) ;
+           
+           if(amount===0 || !amount ) {
+            setAmount( destination && destination.entryPrice) ;
+           } 
+
+       }, [destination, destination_prop, amount])
+        console.log(destination)
+
+       const checkoutHandler = async () => {
+                  axios.defaults.withCredentials = true
+              const { data:{order} } = await axios.post(`${server}/api/v1/payment/checkout`, {
+                amount: amount,
+                }, {
+                      headers: {
+                                'Content-Type': 'application/json',
+                                }, 
+                              }) 
+                              
+               const {data:{key}} = await axios.get(`${server}/api/v1/payment/getKey`, {
+                withCredentials: true
+               })
+             
+
+      const options = {
+        "key": key, // Key ID generated from the Dashboard
+        "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Lokesh Kumar Choudhary",
+        "description": "Travler Test Transaction",
+        "image": logo,
+        "order_id": order.id, // Passed the `id` obtained in the response
+        "callback_url": `${server}/api/v1/payment/paymentVerification?destination_id=${destination._id}&persons=${(amount/destination.entryPrice)}`,
+        "prefill": {
+            "name": "Travler CEO - Lokesh Choudhary",
+            "email": "LokeshChoudhary@travler.com",
+            "contact": "8170820742"
+        },
+        "notes": {
+            "address": "Travler Office Gandhinagar"
+        },
+        "theme": {
+            "color": "#5accb7"
+        }
+    };
+    
+
+    const razor = new window.Razorpay(options);
+    razor.open();
+         
+    
+    
+    }
+       
+
+
+
+
   return (    <>
 
   
@@ -9,7 +76,7 @@ const Description = () => {
                  <div className=" POPPINS w-1/2 flex flex-col bg-white rounded-2xl">
                     <span className='text-[5vw] lg:text-[3vw] px-3'> About</span>
                     <br />
-                     <p className=' text-[3vw] lg:text-[1.5vw] mx-[5px]'> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis, sint voluptatibus. Tempore adipisci impedit repellendus quaerat cupiditate vitae officia illo, pariatur aliquid. Nam labore iste sequi totam voluptatem autem sunt?</p>
+                     <p className=' text-[3vw] lg:text-[1.5vw] mx-[5px]'> { destination && destination.description}</p>
                   <br />
                 </div>  
                   
@@ -18,15 +85,16 @@ const Description = () => {
                          <br />
                          <p className=' text-[3vw] lg:text-[1.5vw] mx-[5px]'>
                               <ul>
-                                <li> Sunday -</li>
-                                <li>Monday -</li>
-                                <li>Tuesday -</li>
-                                <li>Wednesday -</li>
-                                <li>Thursday -</li>
-                                <li>Friday -</li>
-                                <li>Saturday -</li>
+                              { destination && Object.keys(destination.timing).map((key, index) => {
+                                return (
+                                <li key={index}>
+                                   {" "}
+                                  {key} : { destination.timing[key] }
+                               </li> );
+                                      })}
                               </ul>
                          </p>
+
                          <br />
                  </div>
             </div>
@@ -53,10 +121,13 @@ const Description = () => {
                           <br />
                     <div className='flex flex-col text-[2.5vw]'>
                     
-                             <span className=' font-semibold lg:text-[1.5vw]'> Nationality</span> 
+                             <span className=' font-semibold lg:text-[1.5vw]'> Persons</span> 
                               <span className=' flex justify-center items-center lg:text-[1.5vw]'> 
                             
-                                 <input type="text" name='nationality' placeholder='Enter your nationality' required/>
+                                 <input type="number" name='nationality' placeholder='Enter no. of persons' required
+                                 onChange={(e)=> {
+                                  setAmount( amount * e.target.value)
+                                  }}/>
                               </span>
                     </div>
                     <br />
@@ -64,13 +135,17 @@ const Description = () => {
                    </div>
                    <div className=' flex flex-col justify-center items-center font-bold text-[3.5vw] lg:text-[2vw]  '>
                      <span>Ticket Fare</span>
-                     <span> 35Rs</span>
+                     <span>Rs.  {amount} </span>
 
                    </div>
                    <div className=' flex justify-center items-center font-bold text-[4vw] lg:text-[2vw]'>
-                    <button className='bg-[#FF7324] text-[white] px-2 py-2 rounded-2xl font-bold'> BOOK ! </button>
+                    {  amount !== 0 &&
+                      <button className='bg-[#FF7324] text-[white] px-2 py-2 rounded-2xl font-bold shadow-md hover:shadow-lg shadow-black hover:bg-[#5d2e08] transition duration'
+                    onClick={checkoutHandler}> BOOK ! </button>
+                                }
                    </div>
-
+                                
+      
 
             </div>
     </div>

@@ -1,34 +1,39 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "../../styles/box.scss";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const  Box = ({ props }) => {
 
-const Box = ({ props }) => {
   const [image, setImage] = useState();
    
 
   
   useEffect(() => {
-     axios.get(`https://api.unsplash.com/photos?page=1&query=${props.name}&client_id=VzYzCV161H70QxU-EqlOg150kgdPlVhxm4hJF7_gpoM`)
+     axios.get(`https://api.unsplash.com/search/photos?query=${props.name}&client_id=VzYzCV161H70QxU-EqlOg150kgdPlVhxm4hJF7_gpoM`)
     .then((res) => {
      console.log(res)
-      setImage(res.data[0].urls.small)
+      setImage(res.data.results[0].urls.small)
      })
      .catch((err) => {
        console.log(err)
      });
-   }, []);
-
- 
-
+   }, [props]);
+       
+  const navigate = useNavigate();
+  const clickHandler = () => { 
+       navigate(`/destinations`, 
+       { state: { destination_prop : props } })
+  };
+  
 
 
   return (
     <>
       <br />
       <div className=" box">
-        <div className="start-div">
-          <img src={image} alt="" />
+        <div className="start-div flex items-center justify-center overflow-hidden shadow-md shadow-black">
+          <img src={image} alt="" className=" h-full rounded-[5px] shadow-md shadow-black " />
         </div>
         <div className="mid-div">
           <div className="mid-first ">
@@ -49,7 +54,7 @@ const Box = ({ props }) => {
         </div>
         <div className=" end-div">
           <div> Fare - Rs. {props.entryPrice}</div>
-          <button className="btn"> Book Ticket</button>
+          <button className="btn" onClick={clickHandler}> Book Ticket</button>
         </div>
       </div>
     </>

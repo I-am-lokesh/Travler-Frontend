@@ -21,7 +21,7 @@ const NavBar = () => {
          
          <h1 className='hidden sm:flex md:visible text-[black] font-extrabold text-lg sm:tracking-[2px] lg:tracking-[10px]  TRAVLER'>TRAVLER </h1> 
          </div>
-             <div className=' bg-white bg-opacity-100 rounded-b-2xl w-[120px] sm:w-[60vw]'>
+             <div className=' bg-white shadow shadow-black bg-opacity-100 rounded-b-2xl w-[120px] sm:w-[60vw]'>
 
             <ul className='flex flex-row text-[15px] justify-around items-end h-full font-bold'>
 
@@ -58,7 +58,7 @@ const NavBar = () => {
             </ul>
             </div>
             
-           <button className=' bg-slate-50 text-orange-500 font-extrabold px-[5px] text-sm  rounded-full'> <NavLink to="/bookticket" >Book Ticket </NavLink></button>
+           <button className=' bg-slate-50 text-orange-500 font-extrabold px-[5px] text-sm  rounded-full shadow shadow-black'> <NavLink to="/bookticket" >Book Ticket </NavLink></button>
          
     </div>
       
