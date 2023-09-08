@@ -1,7 +1,7 @@
 import { LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { InstagramLogoIcon } from "@radix-ui/react-icons";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import img from "../../assets/myPicCrop.PNG";
+import img from "../../assets/myPicCrop.png";
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-8 h-64">
