@@ -5,7 +5,7 @@ import { createContext, useState } from "react";
 import App from "./App.jsx";
 import "./styles/index.scss";
 
-export const server = "http://localhost:4000";
+export const server = "https://travler-backend.vercel.app";
 
 export const Context = createContext({ isAuthenticated: false });
 
