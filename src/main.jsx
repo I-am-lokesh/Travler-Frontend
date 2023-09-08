@@ -1,35 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createContext , useState} from "react";
-
+import { createContext, useState } from "react";
 
 import App from "./App.jsx";
 import "./styles/index.scss";
 
-export const server = "https://travler-backend.vercel.app";
+export const server = "http://localhost:4000";
 
+export const Context = createContext({ isAuthenticated: false });
 
-export const Context = createContext({ isAuthenticated : false});
-
-
-const AppWrapper = () => { 
-
-  const [ isAuthenticated, setIsAuthenticated ] = useState(false) ;
-  return  (
+const AppWrapper = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  return (
     <Context.Provider
-    value={ {
-      isAuthenticated,
-       setIsAuthenticated}
-     }>
-    <App />
+      value={{
+        isAuthenticated,
+        setIsAuthenticated,
+      }}
+    >
+      <App />
     </Context.Provider>
-  )
-}
+  );
+};
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    
-      <AppWrapper></AppWrapper>
-
+    <AppWrapper></AppWrapper>
   </React.StrictMode>
 );

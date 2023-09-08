@@ -3,16 +3,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { server } from "../../main.jsx";
 import Box from "./Box.jsx";
-
+import { flushSync } from "react-dom";
 
 const SearchBar = () => {
   const [city, setCity] = useState("");
   const [date, setDate] = useState(new Date(Date.now()));
   const [dest, setDest] = useState([]);
-  
-  useEffect(() => {
 
-    const { data } = axios
+  useEffect(() => {
+    axios
       .get(`${server}/api/v1/destination/get/${city}`, {
         withCredentials: true,
       })
@@ -23,15 +22,17 @@ const SearchBar = () => {
       .catch((err) => {
         console.log(err);
       });
-   }, [city]);
+  }, [city]);
 
-   
+  const handleFlush = (e) => {
+      flushSync(
+        setCity(e.target.value),
+      );
+   };
 
-  
 
   const submitHandler = (e) => {
     e.preventDefault();
-   
   };
 
   return (
@@ -40,7 +41,7 @@ const SearchBar = () => {
         <form
           action="submit"
           className="flex flex-row w-full justify-between "
-           onSubmit={submitHandler}
+          onSubmit={submitHandler}
         >
           <div className=" flex  flex-col w-1/4 rounded-2xl  justify-around POPPINS align-middle text-[2vw] sm:text-[1.5vw]  ">
             <label htmlFor="city" className=" m-auto font-bold">
@@ -53,7 +54,7 @@ const SearchBar = () => {
               className=" h-1/2 m-auto rounded-md  shadow-black shadow-sm"
               placeholder="Enter city name"
               value={city}
-              onChange={(e) => setCity(e.target.value)}
+              onChange={(e) => handleFlush(e)}
               required
             />
           </div>
@@ -72,21 +73,23 @@ const SearchBar = () => {
             />
           </div>
 
-          <div className=" flex flex-row-reverse bg-[#289CAC] items-center w-[4em] lg:w-[8em] rounded-2xl   POPPINS align-middle "
-           onClick={(e)=> submitHandler(e)}>
-            <AiOutlineSearch size={45} color={"#144E56"} />
+          <div
+            className=" flex flex-row justify-center bg-[#289CAC] items-center w-[4em] lg:w-[8em] rounded-2xl   POPPINS align-middle "
+            onClick={(e) => submitHandler(e)}
+          >
+            <AiOutlineSearch size={55} color={"#144E56"} />
           </div>
         </form>
       </div>
-      {
-         !city && <div className="ml-[10vw] text-[1vw] font-bold text-red-500">Please enter a city name above. 
-            Example- Delhi, Kolkata, Jaipur etc</div>
-      }
+      {!city && (
+        <div className="ml-[10vw] text-[1vw] font-bold text-red-500">
+          Please enter a city name above. Example- Delhi, Kolkata, Jaipur etc
+        </div>
+      )}
 
       {dest &&
         dest.map((item) => {
-                
-          return ( <Box key={item._id} props={item} /> ) 
+          return <Box key={item._id} props={item} />;
         })}
     </>
   );

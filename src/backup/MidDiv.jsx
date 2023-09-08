@@ -7,47 +7,47 @@ import { server } from '../../main.jsx';
 
 const MidDiv = () => {
 
-  
-  const [sorted , setSorted] = useState(null);
+  const [destinations, setDestinations] = useState([]);
+  const [sorted , setSorted] = useState();
   const [image, setImage] = useState([]);
  
-  
 
   useEffect(() => {
      
-    axios
-      .get(`${server}/api/v1/destination/get/all`)
+    axios.get(`${server}/api/v1/destination/get/all`) 
       .then((response) => {
-        setSorted((response.data.destinations).sort((a, b) => b.no_of_visits - a.no_of_visits)
-       .slice(0, 6));
+        setDestinations(response.data.destinations); 
+        const sortedDestinations = destinations.sort((a, b) => b.no_of_visits - a.no_of_visits);
+        
+        const topSix = [] ;
+        for (let i = 0; i < 6; i++) {
+          topSix.push(sortedDestinations[i]) ;
+        }
 
-       for (let i = 0; i < 7; i++) {
-         sorted &&
-           sorted[i] &&
-           axios
-             .get(
-               `https://api.unsplash.com/search/photos?query=${sorted[i].name}&client_id=VzYzCV161H70QxU-EqlOg150kgdPlVhxm4hJF7_gpoM`
-             )
-             .then((res) => {
-               const img = res.data.results[0].urls.regular;
-               setImage((image) => [...image, img]);
-             })
-             .catch((err) => {
-               console.log(err);
-             });
-       } 
+        setSorted(topSix);
 
+        for(let i = 0; i < 6; i++) {
+         sorted && sorted[i] && axios.get(`https://api.unsplash.com/search/photos?query=${sorted[i].name}&client_id=VzYzCV161H70QxU-EqlOg150kgdPlVhxm4hJF7_gpoM`)
+         
+        .then((res) => { 
+          
+          const img = res.data.results[0].urls.regular ;
+          setImage((image) => [...image, img]) ;
+           
+        } )
+        .catch((err) => {
+          console.log(err)
+         } )
+        } 
       })
       .catch((error) => {
-        console.error("Error fetching destinations", error);
+      console.error('Error fetching destinations', error);
       });
-
 
   }, [sorted] );
       
-         
-    
 
+  
 
   const styles = {
     carouselContainer: {
@@ -71,7 +71,7 @@ const MidDiv = () => {
          <div className="flex justify-center align-middle h-1/6"> 
             <p className=" font-extrabold text-[5vw] lg:text-[2.5vw]"> Explore Top Destinations</p>
          </div>
-            <br />
+         <br />
          <div className=" flex justify-between mx-[10vw] h-[50vh] ">
          <Swiper
          height={400}
@@ -82,6 +82,7 @@ const MidDiv = () => {
     >
       <SwiperSlide><p>Visited by {sorted && sorted[0] && sorted[0].no_of_visits + "-" + sorted[0].name } </p><img src={image && image[0]} style={styles.carouselImage} alt="" 
          className='shadow-md shadow-black'/> </SwiperSlide>
+
       <SwiperSlide><p>Visited by {sorted && sorted[1] && sorted[1].no_of_visits + "-" + sorted[1].name} </p><img src={image && image[1]} style={styles.carouselImage} alt=""
         className='shadow-md shadow-black'/></SwiperSlide>
       <SwiperSlide><p>Visited by {sorted && sorted[2] && sorted[2].no_of_visits + "-" + sorted[2].name} </p><img src={image && image[2]} style={styles.carouselImage} alt=""
@@ -96,7 +97,7 @@ const MidDiv = () => {
     </Swiper>
 
 
-        </div>
+         </div>
 
     </div>
   )

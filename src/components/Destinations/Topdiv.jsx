@@ -36,6 +36,7 @@ const Topdiv = ({ destination_prop }) => {
               infinite: true,
               speed: 500,
               slidesToShow: 3,
+              arrows: false,
               slidesToScroll: 1,
               autoplay: true, // Enable autoplay
               autoplaySpeed: 3000, // Set autoplay speed (in milliseconds)

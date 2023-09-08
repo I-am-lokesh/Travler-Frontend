@@ -20,7 +20,7 @@ const Topdiv = () => {
 
 
               <div className="w-1/3 sm:w-1/2 flex flex-col items-center justify-center ">
-            <img src= {image} alt="img" className=" object-contain xl:w-[50vw] xl:h-[40vw] " />
+                <img src= {image} alt="img" className=" object-contain xl:w-[50vw] xl:h-[40vw] " />
               </div>
 
     </div>

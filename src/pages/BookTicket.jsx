@@ -2,24 +2,45 @@ import NavBar from "../components/Home/NavBar";
 import Topdiv from "../components/BookTicket/Topdiv";
 import BlueBlock from "../components/BookTicket/BlueBlock";
 
-
 import Carousel from "../components/BookTicket/Carousel";
 import SearchBar from "../components/BookTicket/SearchBar";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
 const BookTicket = () => {
 
   const [city, setCity] = useState();
-  useEffect(() => { 
-        const locationData = axios.get("https://geolocation-db.com/json/8ccfa540-1cde-11ee-b4fb-5f58249fb2cc")
-         .then((res) => {
-            console.log(res)
-             setCity(res.data.city)
-             console.log(city)
-          }).catch((err) => {
-            console.log(err)
-          });
-  },[city]);
+  const [lat, setLat] = useState(null);
+  const [long, setLong] = useState(null);
+
+
+  navigator.geolocation && navigator.geolocation.getCurrentPosition(
+    (position) => {
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+    },
+    (error) => {
+      console.error("Error Code = " + error.code + " - " + error.message);
+    }
+  );
+   console.log(lat , "lat") ; 
+   console.log(long , "long") ;
+
+
+   useEffect(() => {
+         axios.get(
+
+           `https://geocode.maps.co/reverse?lat=${lat}&lon=${long}`
+
+         ).then((res) => {
+            console.log(res.data) ;
+            setCity(res.data.address.city) ;
+            
+          })
+           .catch((err) => {
+             console.log(err);
+           });
+    }, [lat, long]);
 
 
 
@@ -27,8 +48,7 @@ const BookTicket = () => {
      <>
      <BlueBlock></BlueBlock>
          <NavBar />
-         
-        <Topdiv/>
+         <Topdiv/>
         <Carousel city={city} />
         <br /><br />
         <SearchBar></SearchBar>

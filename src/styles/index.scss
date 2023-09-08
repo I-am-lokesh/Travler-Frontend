@@ -25,3 +25,7 @@ body {
 .MERRI {
     font-family: 'Merriweather', serif;
   }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }

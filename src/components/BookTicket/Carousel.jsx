@@ -1,33 +1,29 @@
 
 import { useState, useEffect } from "react";
- 
-import Slider from "react-slick";
+ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import {server} from "../../main.jsx"
-const Carousel = ( ) => {
+const Carousel = ( {city} ) => {
 
   const [destinations, setDestinations] = useState([]);
   const [sorted , setSorted] = useState();
   const [image, setImage] = useState([]);
    
-  useEffect(() => {
+  useEffect(() => { 
+     
     axios.get(`${server}/api/v1/destination/get/all`) 
     .then((response) => {
       setDestinations(response.data.destinations); 
-      const sortedDestinations = destinations.sort((a, b) => b.no_of_visits - a.no_of_visits);
       
-      const topSix = [] ;
-      for (let i = 0; i < 15; i++) {
-        topSix.push(sortedDestinations[i])
-      }
+      
+      const sortedDestinations = destinations.sort((a, b) => b.no_of_visits - a.no_of_visits).slice(0, 15);
+      setSorted(sortedDestinations);
+      
 
-      setSorted(topSix);
 
-      
-      
-       for(let i = 0; i < 15; i++) {
+      for(let i = 0; i < 16; i++) {
        sorted && sorted[i] && axios.get(`https://api.unsplash.com/search/photos?query=${sorted[i].name}&client_id=VzYzCV161H70QxU-EqlOg150kgdPlVhxm4hJF7_gpoM`)
       .then((res) => { 
         
@@ -35,20 +31,17 @@ const Carousel = ( ) => {
         setImage((image) => [...image, img])
          
       } )
+      
       .catch((err) => {
         console.log(err)
        } )
       } 
-    
-     
-
-      
     })
     .catch((error) => {
     console.error('Error fetching destinations', error);
     });
 
-}, [sorted, image]);
+}, [sorted]);
       
   
 
@@ -56,6 +49,7 @@ const Carousel = ( ) => {
     dots: true,
     infinite: true,
     speed: 500,
+     arrows: false,
     slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true, // Enable autoplay
@@ -81,7 +75,7 @@ const Carousel = ( ) => {
 
 
   return (
-            <div className='w-100vw h-fit'>
+            <div className='w-[100vw] h-fit'>
           <div style={styles.carouselContainer}>
 
   <Slider {...settings}>
