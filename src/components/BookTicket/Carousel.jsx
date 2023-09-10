@@ -13,7 +13,9 @@ const Carousel = ( {city} ) => {
    
   useEffect(() => { 
      
-    axios.get(`${server}/api/v1/destination/get/all`) 
+    axios.get(`${server}/api/v1/destination/get/all`, {
+       withCredentials: true,
+    }) 
     .then((response) => {
       setDestinations(response.data.destinations); 
       
